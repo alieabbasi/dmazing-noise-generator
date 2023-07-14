@@ -1,0 +1,53 @@
+.app {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.app > *:not(:first-child) {
+  margin-top: 16px;
+}
+
+.point-selector-wrapper {
+  background-color: #353535;
+  width: 272px;
+  height: 272px;
+  margin-top: 8px;
+  border-radius: 12px;
+}
+
+.inputs {
+  display: flex;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.inputs > *:not(:first-child) {
+  margin-left: 8px;
+}
+
+.density-section {
+  flex-grow: 1;
+}
+
+.prm-btn {
+  width: 100%;
+  padding: 14px;
+  background-color: #007AFF;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 200ms;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.prm-btn:active,
+.prm-btn:hover {
+  background-color: #016ddf;
+}
+
+.prm-btn:active {
+  transform: scale(0.97);
+}

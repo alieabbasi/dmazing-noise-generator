@@ -1,0 +1,21 @@
+.input-container {
+  padding: 12px;
+  display: flex;
+  border-radius: 8px;
+  background-color: #343434;
+  width: 100%;
+}
+
+.input-label {
+  color: 727272;
+  font-size: 14px;
+  margin-right: 12px;
+}
+
+.input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 16px;
+}

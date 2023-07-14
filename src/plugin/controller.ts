@@ -1,6 +1,6 @@
 figma.showUI(__html__);
 
-figma.ui.resize(320, 612);
+figma.ui.resize(320, 572);
 
 figma.ui.onmessage = (pluginMessage: {
   type: string;

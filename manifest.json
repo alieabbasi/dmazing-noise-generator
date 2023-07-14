@@ -1,0 +1,8 @@
+{
+  "name": "Dmazing Noise Generator",
+  "id": "1251968632427677072",
+  "api": "1.0.0",
+  "main": "dist/code.js",
+  "ui": "dist/ui.html",
+  "editorType": ["figma", "figjam"]
+}

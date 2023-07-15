@@ -1,6 +1,7 @@
 import { ReadialDensityCreation } from "../typings/interfaces";
 
 export const radialCreation = (data: ReadialDensityCreation) => {
+  console.log("Data:", data)
   const { width, height, size, density, x: rootX, y: rootY } = data;
   const rowCount = Math.floor(+height / density);
   const colCount = Math.floor(+width / density);
@@ -27,7 +28,20 @@ export const radialCreation = (data: ReadialDensityCreation) => {
     size
   );
 
-  figma.viewport.scrollAndZoomIntoView([mainFrame]);
+  const parentFrame = figma.createFrame()
+  parentFrame.resize(width, height);
+  parentFrame.fills = [
+    {
+      color: { r: 1, g: 1, b: 1 },
+      type: "SOLID",
+      opacity: 0,
+    },
+  ];
+
+  parentFrame.appendChild(mainFrame)
+
+  figma.flatten([mainFrame])
+  figma.viewport.scrollAndZoomIntoView([parentFrame]);
 };
 
 const calculateMaxDistance = (

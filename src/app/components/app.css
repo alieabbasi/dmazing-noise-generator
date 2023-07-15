@@ -19,8 +19,32 @@
   margin-left: 8px;
 }
 
+.distribution-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .density-section {
   flex-grow: 1;
+}
+
+.btn-remove-focused {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #343434;
+  padding: 2px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 11px;
+  transition: all 200ms;
+}
+
+.btn-remove-focused:hover {
+  background-color: #404040;
 }
 
 .prm-btn {

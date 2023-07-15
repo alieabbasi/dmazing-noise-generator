@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useState } from "react";
-import "../styles/app.css";
+import React, { ChangeEvent, useEffect, useState } from "react";
+
 import Input from "./Input/Input";
 import Slider from "./Slider/Slider";
 import PointSelector from "./PointSelector/PointSelector";
@@ -7,16 +7,22 @@ import {
   LinearDensityCreation,
   ReadialDensityCreation,
 } from "../../typings/interfaces";
+import "./app.css";
 
 function App() {
+  const [distributionKeyword, setDistributionKeyword] = useState("Linear");
   const [variables, setVariables] = useState({
     x: -1,
     y: -1,
     width: "50",
     height: "50",
     size: 1,
-    density: 25,
+    density: 75,
   });
+
+  useEffect(() => {
+    console.log(variables.x, variables.y);
+  }, [variables.x, variables.y]);
 
   const onInsert = () => {
     if (variables.x === -1) {
@@ -34,7 +40,7 @@ function App() {
       size: variables.size,
       density: (100 - variables.density) * 0.09 + 1,
     };
-    parent.postMessage({ pluginMessage: data });
+    parent.postMessage({ pluginMessage: data }, "*");
   };
 
   const createRadialNoise = () => {
@@ -43,11 +49,11 @@ function App() {
       width: +variables.width,
       height: +variables.height,
       size: variables.size,
-      density: (100 - variables.density) * 0.25 + 1,
+      density: (100 - variables.density) * 0.05 + 1,
       x: (+variables.width / 19) * (variables.x + 1),
       y: (+variables.height / 19) * (variables.y + 1),
     };
-    parent.postMessage({ pluginMessage: data });
+    parent.postMessage({ pluginMessage: data }, "*");
   };
 
   const handleVariableChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -65,7 +71,12 @@ function App() {
   };
 
   const pointChangeHandler = (i: number, j: number) => {
-    setVariables((prev) => ({ ...prev, x: i / 19, y: j / 19 }));
+    setVariables((prev) => ({ ...prev, x: i, y: j }));
+    if (i >= 0) {
+      setDistributionKeyword("Focused");
+    } else {
+      setDistributionKeyword("Linear");
+    }
   };
 
   React.useEffect(() => {
@@ -81,8 +92,13 @@ function App() {
   return (
     <div className="app">
       <div>
-        <p className="opacity-60">Radial </p>
-        <PointSelector onSelect={pointChangeHandler} />
+        <div className="distribution-info">
+          <p className="opacity-60">{distributionKeyword} Distribution</p>
+          {distributionKeyword === "Focused" && (
+            <button className="btn-remove-focused" onClick={() => pointChangeHandler(-1, -1)}>Remove</button>
+          )}
+        </div>
+        <PointSelector onSelect={pointChangeHandler} x={variables.x} y={variables.y} />
       </div>
       <div>
         <p className="opacity-60">Noise Size</p>

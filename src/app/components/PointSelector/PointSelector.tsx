@@ -1,17 +1,15 @@
-import React, { FC, Fragment, useMemo, useState } from "react";
+import React, { FC, Fragment, useMemo } from "react";
 import "./point-selector.css";
 import SelectionHoverSVG from "../../assets/images/selection-hover.svg";
 import SelectionSVG from "../../assets/images/selection.svg";
 
 interface PointSelectorProps {
+  y: number,
+  x: number,
   onSelect: (i: number, j: number) => void;
 }
 
-const PointSelector: FC<PointSelectorProps> = ({ onSelect }) => {
-  const [selectedIJ, setSelectedIJ] = useState<{ i: number; j: number }>({
-    i: undefined,
-    j: undefined,
-  });
+const PointSelector: FC<PointSelectorProps> = ({ x, y, onSelect }) => {
   const circlesArr = useMemo(() => {
     const arr = [];
     for (let i = 0; i < 20; i++) {
@@ -22,7 +20,6 @@ const PointSelector: FC<PointSelectorProps> = ({ onSelect }) => {
   }, []);
 
   const pointSelectionHandler = (i: number, j: number) => {
-    setSelectedIJ({ i, j });
     onSelect(i, j);
   };
 
@@ -42,7 +39,7 @@ const PointSelector: FC<PointSelectorProps> = ({ onSelect }) => {
                     key={`${i}-${j}`}
                     onClick={() => pointSelectionHandler(i, j)}
                   >
-                    {selectedIJ.i === i && selectedIJ.j === j ? (
+                    {x === i && y === j ? (
                       <div className="selectoion-box-selected">
                         <img src={SelectionSVG} alt="" />
                       </div>

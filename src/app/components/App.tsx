@@ -2,29 +2,53 @@ import React, { ChangeEvent, useState } from "react";
 import "../styles/app.css";
 import Input from "./Input/Input";
 import Slider from "./Slider/Slider";
+import PointSelector from "./PointSelector/PointSelector";
+import {
+  LinearDensityCreation,
+  ReadialDensityCreation,
+} from "../../typings/interfaces";
 
 function App() {
   const [variables, setVariables] = useState({
-    width: "",
-    height: "",
+    x: -1,
+    y: -1,
+    width: "50",
+    height: "50",
     size: 1,
     density: 25,
   });
 
-  // const onCreate = () => {
-  //   parent.postMessage(
-  //     {
-  //       pluginMessage: {
-  //         type: "create-shapes",
-  //         width: +variables.width,
-  //         height: +variables.height,
-  //         size: +variables.size,
-  //         scale: +variables.distribution,
-  //       },
-  //     },
-  //     "*"
-  //   );
-  // };
+  const onInsert = () => {
+    if (variables.x === -1) {
+      createLinearNoise();
+    } else {
+      createRadialNoise();
+    }
+  };
+
+  const createLinearNoise = () => {
+    const data: LinearDensityCreation = {
+      type: "linear-density",
+      width: +variables.width,
+      height: +variables.height,
+      size: variables.size,
+      density: (100 - variables.density) * 0.09 + 1,
+    };
+    parent.postMessage({ pluginMessage: data });
+  };
+
+  const createRadialNoise = () => {
+    const data: ReadialDensityCreation = {
+      type: "radial-density",
+      width: +variables.width,
+      height: +variables.height,
+      size: variables.size,
+      density: (100 - variables.density) * 0.25 + 1,
+      x: (+variables.width / 19) * (variables.x + 1),
+      y: (+variables.height / 19) * (variables.y + 1),
+    };
+    parent.postMessage({ pluginMessage: data });
+  };
 
   const handleVariableChange = (event: ChangeEvent<HTMLInputElement>) => {
     setVariables((prev) => ({
@@ -33,12 +57,16 @@ function App() {
     }));
   };
 
-  const handleDensityChange = (value: number) => {
+  const densityChangeHandler = (value: number) => {
     setVariables((prev) => ({
       ...prev,
-      density: value,
+      density: value <= 100 ? value : prev.density,
     }));
-  }
+  };
+
+  const pointChangeHandler = (i: number, j: number) => {
+    setVariables((prev) => ({ ...prev, x: i / 19, y: j / 19 }));
+  };
 
   React.useEffect(() => {
     // This is how we read messages sent from the plugin controller
@@ -54,7 +82,7 @@ function App() {
     <div className="app">
       <div>
         <p className="opacity-60">Radial </p>
-        <div className="point-selector-wrapper"></div>
+        <PointSelector onSelect={pointChangeHandler} />
       </div>
       <div>
         <p className="opacity-60">Noise Size</p>
@@ -75,9 +103,15 @@ function App() {
       </div>
       <div className="density-section">
         <p className="opacity-60">Density</p>
-        <Slider value={variables.density} name="density" onChange={handleDensityChange}/>
+        <Slider
+          value={variables.density}
+          name="density"
+          onChange={densityChangeHandler}
+        />
       </div>
-      <button className="prm-btn">Insert Noise</button>
+      <button className="prm-btn" onClick={onInsert}>
+        Insert Noise
+      </button>
     </div>
   );
 }

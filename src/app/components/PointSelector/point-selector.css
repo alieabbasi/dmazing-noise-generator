@@ -1,0 +1,50 @@
+.point-selector-wrapper {
+  background-color: #353535;
+  width: 272px;
+  height: 272px;
+  margin-top: 8px;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.point-selector {
+  position: relative;
+  width: 100%;
+  height:  100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.point-selection-dot {
+  width: 2px;
+  height: 2px;
+  border-radius: 2px;
+  background-color: #4B4B4B;
+  position: absolute;
+}
+
+.selectoion-box {
+  width: 13.05px;
+  height: 13.05px;
+  position: relative;
+  cursor: pointer;
+}
+
+.selectoion-box-hover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  display: none;
+}
+
+.selectoion-box-selected {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.selectoion-box:hover > .selectoion-box-hover {
+  display: block;
+}

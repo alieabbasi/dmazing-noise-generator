@@ -14,14 +14,13 @@ function App() {
   const [variables, setVariables] = useState({
     x: -1,
     y: -1,
-    width: "50",
-    height: "50",
+    width: "200",
+    height: "200",
     size: 1,
     density: 75,
   });
 
   useEffect(() => {
-    console.log(variables.x, variables.y);
   }, [variables.x, variables.y]);
 
   const onInsert = () => {
@@ -50,8 +49,8 @@ function App() {
       height: +variables.height,
       size: variables.size,
       density: (100 - variables.density) * 0.05 + 1,
-      x: (+variables.width / 19) * (variables.x + 1),
-      y: (+variables.height / 19) * (variables.y + 1),
+      x: (+variables.width / 18) * (variables.y + 1),
+      y: (+variables.height / 18) * (variables.x + 1),
     };
     parent.postMessage({ pluginMessage: data }, "*");
   };
@@ -71,6 +70,7 @@ function App() {
   };
 
   const pointChangeHandler = (i: number, j: number) => {
+    console.log("X:", i, "Y:", j)
     setVariables((prev) => ({ ...prev, x: i, y: j }));
     if (i >= 0) {
       setDistributionKeyword("Focused");

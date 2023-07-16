@@ -36,6 +36,15 @@ export const linearCreation = (data: LinearDensityCreation) => {
     }
   }
 
+  const parentFrame = figma.createFrame();
+  parentFrame.resize(width, height);
+  parentFrame.fills = [
+    {
+      color: { r: 1, g: 1, b: 1 },
+      type: "SOLID",
+    },
+  ];
+  parentFrame.appendChild(mainFrame);
   figma.flatten([mainFrame]);
   figma.viewport.scrollAndZoomIntoView([mainFrame]);
 };

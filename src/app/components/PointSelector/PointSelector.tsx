@@ -1,15 +1,18 @@
-import React, { FC, Fragment, useMemo } from "react";
+import React, { FC, Fragment, useMemo, useState } from "react";
 import "./point-selector.css";
 import SelectionHoverSVG from "../../assets/images/selection-hover.svg";
 import SelectionSVG from "../../assets/images/selection.svg";
+import NotchSVG from "../../assets/images/notch.svg"
 
 interface PointSelectorProps {
-  y: number,
-  x: number,
+  y: number;
+  x: number;
   onSelect: (i: number, j: number) => void;
 }
 
 const PointSelector: FC<PointSelectorProps> = ({ x, y, onSelect }) => {
+  const [tooltipXY, setTooltipXY] = useState({ x: -100, y: -100 });
+
   const circlesArr = useMemo(() => {
     const arr = [];
     for (let i = 0; i < 20; i++) {
@@ -19,8 +22,23 @@ const PointSelector: FC<PointSelectorProps> = ({ x, y, onSelect }) => {
     return arr;
   }, []);
 
+  const tooltipLabel = useMemo(() => {
+    if (x === 9 && y === 9) return "Center";
+    let label: string = "";
+    if (x >= 0 && x < 9) label = "Top";
+    else if (x > 9 && x < 19) label = "Down";
+
+    if (y >= 0 && y < 9) label += `${label === "" ? "" : ", "}Left`;
+    else if (y > 9 && y < 19) label += `${label === "" ? "" : ", "}Right`;
+
+    return label;
+  }, [x, y]);
+
   const pointSelectionHandler = (i: number, j: number) => {
     onSelect(i, j);
+    const el = document.getElementById(`${i}-${j}`) as HTMLDivElement;
+    const elBounds = el.getBoundingClientRect();
+    setTooltipXY({ x: elBounds.x + 7.5, y: elBounds.y + 7.5 });
   };
 
   return (
@@ -53,6 +71,15 @@ const PointSelector: FC<PointSelectorProps> = ({ x, y, onSelect }) => {
             )}
           </Fragment>
         ))}
+        {x >= 0 && y >= 0 && (
+          <div
+            className="selection-tooltip"
+            style={{ top: tooltipXY.y - 50, left: tooltipXY.x }}
+          >
+            <div className="selection-tooltip-label">{tooltipLabel}</div>
+            <img src={NotchSVG} alt="" className="selection-tooltip-notch" />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -24,7 +24,10 @@ module.exports = (env, argv) => ({
       // Allows you to use "<%= require('./file.svg') %>" in your HTML code to get a data URI
       { test: /\.(png|jpg|gif|webp|svg)$/, loader: "url-loader" },
 
-      { test: /\.(ttf|woff|woff2)$/, loader: "url-loader"},
+      {
+        test: /\.(ttf)$/,
+        type: "asset/resource"
+      },
     ],
   },
 
@@ -35,6 +38,7 @@ module.exports = (env, argv) => ({
     publicPath: "",
     filename: "[name].js",
     path: path.resolve(__dirname, "dist"), // Compile into a folder called "dist"
+    assetModuleFilename: '[name].[ext]'
   },
 
   // Tells Webpack to generate "ui.html" and to inline "ui.ts" into it

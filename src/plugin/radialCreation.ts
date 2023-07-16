@@ -1,7 +1,6 @@
 import { ReadialDensityCreation } from "../typings/interfaces";
 
 export const radialCreation = (data: ReadialDensityCreation) => {
-  console.log("Data:", data)
   const { width, height, size, density, x: rootX, y: rootY } = data;
   const rowCount = Math.floor(+height / density);
   const colCount = Math.floor(+width / density);

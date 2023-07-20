@@ -49,8 +49,8 @@ function App() {
       height: +variables.height,
       size: variables.size,
       density: (100 - variables.density) * 0.05 + 1,
-      x: (+variables.width / 18) * (variables.y + 1),
-      y: (+variables.height / 18) * (variables.x + 1),
+      x: (+variables.width / 19) * (variables.y + 1),
+      y: (+variables.height / 19) * (variables.x + 1),
     };
     parent.postMessage({ pluginMessage: data }, "*");
   };

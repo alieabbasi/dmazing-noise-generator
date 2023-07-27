@@ -36,6 +36,7 @@ export const linearCreation = (data: LinearDensityCreation) => {
     }
   }
 
+  const vector = figma.flatten([mainFrame]);
   const parentFrame = figma.createFrame();
   parentFrame.resize(width, height);
   parentFrame.fills = [
@@ -44,7 +45,10 @@ export const linearCreation = (data: LinearDensityCreation) => {
       type: "SOLID",
     },
   ];
-  parentFrame.appendChild(mainFrame);
-  figma.flatten([mainFrame]);
-  figma.viewport.scrollAndZoomIntoView([mainFrame]);
+  parentFrame.appendChild(vector);
+  vector.x = (parentFrame.width - vector.width) / 2;
+  vector.y = (parentFrame.height - vector.height) / 2;
+
+  console.log
+  figma.viewport.scrollAndZoomIntoView([vector]);
 };

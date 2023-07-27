@@ -33,7 +33,6 @@ export const radialCreation = (data: ReadialDensityCreation) => {
     {
       color: { r: 1, g: 1, b: 1 },
       type: "SOLID",
-      opacity: 0,
     },
   ];
 
